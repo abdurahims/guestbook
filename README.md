@@ -1,2 +1,2 @@
 # guestbook
-A simple Laravel guestbook aplication
+A simple Laravel guestbook application
