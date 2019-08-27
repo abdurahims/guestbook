@@ -79,6 +79,20 @@ class CreatePermissionTables extends Migration
             $table->primary(['permission_id', 'role_id']);
         });
 
+        DB::table('roles')->insert([
+            'name'          => 'administrator',
+            'guard_name'    => 'web',
+            'created_at'    =>  date('Y-m-d H:i:s'),
+            'updated_at'    =>  date('Y-m-d H:i:s')
+        ]);
+
+        DB::table('roles')->insert([
+            'name'          => 'guest',
+            'guard_name'    => 'web',
+            'created_at'    =>  date('Y-m-d H:i:s'),
+            'updated_at'    =>  date('Y-m-d H:i:s')
+        ]);
+
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
             ->forget(config('permission.cache.key'));
