@@ -26,7 +26,11 @@
                     <td> {{ $message->user->name}}</td>
                     <td> {{ $message->content }} </td>
                     <td> {{ $message->created_at->diffForhumans() }} </td>
-                    <td> <a href="{{ route('messages.edit', $message->id ) }}">Edit</a></td>
+                    <td> 
+                    @if(empty($message->link_message_id))
+                    <a href="{{ route('messages.edit', $message->id ) }}">Edit</a>
+                    @endif
+                    </td>
                 </tr>
                 @endforeach
                 </tbody>

@@ -15,7 +15,22 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        $messages = Message::all();        
+        $posted_messages = Message::whereNull('link_message_id')->get();
+
+        $message_ids = $posted_messages->pluck('id')->toArray();
+        $replies = Message::whereIn('link_message_id', $message_ids )->get();
+
+        $messages = new \Illuminate\Support\Collection();
+
+        foreach($posted_messages as $posted_message){
+            $messages->push($posted_message);
+            foreach($replies as $reply){
+                if($posted_message->id == $reply->link_message_id){
+                    $messages->push($reply);
+                }
+            }
+        }
+        
         return view('messages', compact('messages'));
     }
 
@@ -40,7 +55,6 @@ class MessagesController extends Controller
         $request->validate([
             'content' => 'required'
         ]);
-        
         $input = $request->all();
         $user = Auth::user();
         $user->messages()->create($input);
@@ -100,12 +114,19 @@ class MessagesController extends Controller
      */
     public function destroy($id)
     {
+        $replies = Message::where('link_message_id', $id)->get();
         $user = Auth::user();
         if($user->hasPermissionTo('action all')){
             Message::findOrFail($id)->delete();
+            foreach($replies as $reply){
+                $reply->delete();
+            }
             return redirect('/messages'); 
         }else{
             $user->messages()->whereId($id)->first()->delete();
+            foreach($replies as $reply){
+                $reply->delete();
+            }
         }
         return redirect('ownmessages');
     }
@@ -113,7 +134,26 @@ class MessagesController extends Controller
     public function ownmessages(){
 
         $user = Auth::user();
-        $messages = $user->messages;
+        $posted_messages = $user->messages;
+
+        $message_ids = $posted_messages->pluck('id')->toArray();
+        $replies = Message::whereIn('link_message_id', $message_ids )->get();
+
+        $messages = new \Illuminate\Support\Collection();
+
+        foreach($posted_messages as $posted_message){
+            $messages->push($posted_message);
+            foreach($replies as $reply){
+                if($posted_message->id == $reply->link_message_id){
+                    $messages->push($reply);
+                }
+            }
+        }
         return view('ownmessages', compact('messages'));
+    }
+
+    public function reply($id){
+        $message = Message::findOrFail($id);
+        return view('admin.messages.reply', compact('message'));
     }
 }

@@ -23,3 +23,4 @@ Route::post('/register/admin', 'Auth\RegisterController@registeradmin')->name('r
 
 Route::resource('messages', 'MessagesController');
 Route::get('ownmessages', 'MessagesController@ownmessages')->name('ownmessages');
+Route::get('messages/{id}/reply', 'MessagesController@reply')->name('messages.reply');
