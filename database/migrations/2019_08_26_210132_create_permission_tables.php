@@ -93,6 +93,18 @@ class CreatePermissionTables extends Migration
             'updated_at'    =>  date('Y-m-d H:i:s')
         ]);
 
+        DB::table('permissions')->insert([
+            'name'          => 'action all',
+            'guard_name'    => 'web',
+            'created_at'    =>  date('Y-m-d H:i:s'),
+            'updated_at'    =>  date('Y-m-d H:i:s')
+        ]);
+
+        DB::table('role_has_permissions')->insert([
+            'role_id'          => 1,
+            'permission_id'    => 1
+        ]);
+
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
             ->forget(config('permission.cache.key'));
