@@ -6,13 +6,23 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Messages</div>
-
-                <div class="card-body">
-                        <div class="alert alert-success" role="alert">
-                            {{ $messages }}
-                        </div>
-
-                </div>
+                <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th> Name</th>
+                        <th> Content </th>
+                        <th> Date </th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($messages as $message)
+                <tr>
+                    <td> {{ $message->user->name}}</td>
+                    <td> {{ $message->content }} </td>
+                    <td> {{ $message->created_at }} </td>
+                </tr>
+                @endforeach
+                </tbody>
             </div>
         </div>
     </div>

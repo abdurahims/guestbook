@@ -16,7 +16,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/messages', 'MessageController@index')->name('messages');
+// Route::get('/messages', 'MessageController@index')->name('messages');
+Route::get('/admin/register', 'Auth\RegisterController@showAdminRegistrationForm');
+Route::post('/register/admin', 'Auth\RegisterController@registeradmin')->name('registeradmin');
+
+Route::resource('messages', 'MessagesController');

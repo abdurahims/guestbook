@@ -15,4 +15,9 @@ class Message extends Model
         'user_id', 'content', 'link_message_id'
     ];
 
+    //Set up relation to user
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
 }
