@@ -6,27 +6,42 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">Messages
+                @auth
                 <a class="navbar-brand" style="float:right" href="{{ route('messages.create') }}">
                    Create
                 </a>
+                @endauth
                 </div>
-                <table class="table table-striped table-bordered table-hover">
-                <thead>
+                @if($messages->count() > 0)
+                    <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th> Name</th>
+                            <th> Content </th>
+                            <th> Created </th>
+                            @can('action all')
+                            <th> Actions </th>
+                            @endcan
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($messages as $message)
                     <tr>
-                        <th> Name</th>
-                        <th> Content </th>
-                        <th> Date </th>
+                        <td> {{ $message->user->name}}</td>
+                        <td> {{ $message->content }} </td>
+                        <td> {{ $message->created_at->diffForhumans() }} </td>
+                        @can('action all')
+                        <td> <a href="{{ route('messages.edit', $message->id ) }}">Edit</a></td>
+                        @endcan
                     </tr>
-                </thead>
-                <tbody>
-                @foreach($messages as $message)
-                <tr>
-                    <td> {{ $message->user->name}}</td>
-                    <td> {{ $message->content }} </td>
-                    <td> {{ $message->created_at->diffForhumans() }} </td>
-                </tr>
-                @endforeach
-                </tbody>
+                    @endforeach
+                    </tbody>
+                    </table>
+                @else
+                    <div style="padding:10px">
+                        No messages found
+                    </div>
+                @endif
             </div>
         </div>
     </div>

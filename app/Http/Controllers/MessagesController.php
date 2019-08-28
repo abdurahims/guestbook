@@ -15,16 +15,7 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        //$messages = $user->messages;
-        $messages = Message::all();
-
-        // $role = $user->roles()->first();
-        // $messages = "This is a guest";
-        // if ($role->name == 'administrator'){
-        //     $messages = "This is an admin";
-        // }
-        
+        $messages = Message::all();        
         return view('messages', compact('messages'));
     }
 
@@ -91,8 +82,13 @@ class MessagesController extends Controller
     {
         $input = $request->all();
 
-        Auth::user()->messages()->whereId($id)->first()->update($input);
-
+        $user = Auth::user();
+        if($user->hasPermissionTo('action all')){
+            Message::findOrFail($id)->update($input);
+            return redirect('/messages'); 
+        }else{
+            $user->messages()->whereId($id)->first()->update($input);
+        }
         return redirect('/ownmessages');
     }
 
@@ -104,7 +100,13 @@ class MessagesController extends Controller
      */
     public function destroy($id)
     {
-        Auth::user()->messages()->whereId($id)->first()->delete();
+        $user = Auth::user();
+        if($user->hasPermissionTo('action all')){
+            Message::findOrFail($id)->delete();
+            return redirect('/messages'); 
+        }else{
+            $user->messages()->whereId($id)->first()->delete();
+        }
         return redirect('ownmessages');
     }
 

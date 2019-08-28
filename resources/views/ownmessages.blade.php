@@ -10,6 +10,7 @@
                    Create
                 </a>
                 </div>
+                @if($messages->count() > 0)
                 <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
@@ -29,6 +30,12 @@
                 </tr>
                 @endforeach
                 </tbody>
+                </table>
+                @else
+                    <div style="padding:10px">
+                        No messages found
+                    </div>
+                @endif
             </div>
         </div>
     </div>
