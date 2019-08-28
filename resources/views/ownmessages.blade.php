@@ -15,7 +15,8 @@
                     <tr>
                         <th> Name</th>
                         <th> Content </th>
-                        <th> Date </th>
+                        <th> Created </th>
+                        <th> Actions </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,6 +25,7 @@
                     <td> {{ $message->user->name}}</td>
                     <td> {{ $message->content }} </td>
                     <td> {{ $message->created_at->diffForhumans() }} </td>
+                    <td> <a href="{{ route('messages.edit', $message->id ) }}">Edit</a></td>
                 </tr>
                 @endforeach
                 </tbody>

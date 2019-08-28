@@ -27,7 +27,7 @@
                     Guestbook
                 </a>
                 @auth
-                <a class="navbar-brand" href="{{ url('/messages') }}">
+                <a class="navbar-brand" href="{{ url('/ownmessages') }}">
                     Own Messages
                 </a>
                 @endauth

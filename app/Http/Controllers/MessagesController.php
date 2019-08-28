@@ -76,7 +76,8 @@ class MessagesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $message = Message::findOrFail($id);
+        return view('admin.messages.edit', compact('message'));
     }
 
     /**
@@ -88,7 +89,11 @@ class MessagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+
+        Auth::user()->messages()->whereId($id)->first()->update($input);
+
+        return redirect('/ownmessages');
     }
 
     /**
@@ -99,6 +104,14 @@ class MessagesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Auth::user()->messages()->whereId($id)->first()->delete();
+        return redirect('ownmessages');
+    }
+
+    public function ownmessages(){
+
+        $user = Auth::user();
+        $messages = $user->messages;
+        return view('ownmessages', compact('messages'));
     }
 }
