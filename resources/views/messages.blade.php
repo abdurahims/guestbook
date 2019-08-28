@@ -26,8 +26,12 @@
                     </thead>
                     <tbody>
                     @foreach($messages as $message)
-                    <tr>
+                        <tr>
+                        @if($message->user->hasRole('administrator'))
+                        <td> Administrator</td>
+                        @else
                         <td> {{ $message->user->name}}</td>
+                        @endif
                         <td> {{ $message->content }} </td>
                         <td> {{ $message->created_at->diffForhumans() }} </td>
                         @can('action all')
