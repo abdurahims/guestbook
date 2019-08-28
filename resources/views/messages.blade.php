@@ -31,7 +31,12 @@
                         <td> {{ $message->content }} </td>
                         <td> {{ $message->created_at->diffForhumans() }} </td>
                         @can('action all')
-                        <td> <a href="{{ route('messages.edit', $message->id ) }}">Edit</a></td>
+                        <td> 
+                            <a href="{{ route('messages.edit', $message->id ) }}">Edit</a>
+                            @if($message->user_id != Auth::user()->id)
+                            <a href="{{ route('messages.reply', $message->id) }}" style="float:right; padding-right:10px">Reply</a>
+                            @endif
+                        </td>
                         @endcan
                     </tr>
                     @endforeach
