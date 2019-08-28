@@ -5,7 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Messages</div>
+                <div class="card-header">Messages
+                <a class="navbar-brand" style="float:right" href="{{ route('messages.create') }}">
+                   Create
+                </a>
+                </div>
                 <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>

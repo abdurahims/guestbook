@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Message;
 use Auth;
+use App\Message;
+use Illuminate\Http\Request;
 
 class MessagesController extends Controller
 {
@@ -35,7 +35,7 @@ class MessagesController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.messages.create');
     }
 
     /**
@@ -46,7 +46,15 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'content' => 'required'
+        ]);
+        
+        $input = $request->all();
+        $user = Auth::user();
+        $user->messages()->create($input);
+
+        return redirect('messages');
     }
 
     /**
